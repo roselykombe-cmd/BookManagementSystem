@@ -1,0 +1,39 @@
+﻿@model BookManagementSystem.Models.Book
+
+@{
+    ViewData["Title"] = "Delete Book";
+}
+
+<div class="container mt-4" style="max-width: 600px;">
+    <div class="card shadow border-0">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">⚠️ Delete Book Confirmation</h4>
+        </div>
+        <div class="card-body">
+            <p class="text-muted">Are you absolutely sure you want to remove this book from the catalog?</p>
+
+            <table class="table borderless">
+                <tr>
+                    <th>Title:</th>
+                    <td>@Model.Title</td>
+                </tr>
+                <tr>
+                    <th>Author:</th>
+                    <td>@Model.Author</td>
+                </tr>
+                <tr>
+                    <th>Genre:</th>
+                    <td>@Model.Genre</td>
+                </tr>
+            </table>
+
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="mt-4 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

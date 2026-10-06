@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Book Management System</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <!-- Force-linking the Bootstrap Icons Library CDN -->
+    <link rel="stylesheet" href="https://jsdelivr.net" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <style>
+        body {
+            background-color: #fcfbfe;
+            padding-bottom: 60px; /* Prevents layout overlap with footer */
+        }
+
+        .navbar-custom {
+            background-color: #e8e3f0 !important;
+            border-bottom: 2px solid #d4cbe3 !important;
+        }
+
+        .brand-text {
+            color: #513970 !important;
+            font-weight: 700;
+        }
+
+        .nav-link-custom {
+            color: #513970 !important;
+            font-weight: 500;
+        }
+
+            .nav-link-custom:hover {
+                color: #8e7aa3 !important;
+            }
+
+        .lilac-header {
+            background-color: #6c5287 !important;
+            color: #ffffff !important;
+        }
+
+        .badge-lilac {
+            background-color: #e1d7f0 !important;
+            color: #4a148c !important;
+            font-weight: 600;
+        }
+
+        .btn-lilac {
+            background-color: #8263a6 !important;
+            color: #ffffff !important;
+        }
+
+            .btn-lilac:hover {
+                background-color: #6c5287 !important;
+                color: #ffffff !important;
+            }
+
+        .footer-custom {
+            background-color: #e8e3f0;
+            border-top: 1px solid #d4cbe3;
+            color: #513970;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light navbar-custom box-shadow mb-3">
+            <div class="container-fluid">
+                <!-- Embedded Book Icon inside Brand -->
+                <a class="navbar-brand brand-text" asp-area="" asp-controller="Books" asp-action="Index">
+                    <i class="bi bi-book-half me-2"></i>Book Management System
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Books" asp-action="Index">
+                                <i class="bi bi-collection me-1"></i>Book Catalog
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link nav-link-custom" asp-area="" asp-controller="Books" asp-action="Create">
+                                <i class="bi bi-plus-circle me-1"></i>Add New Book
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer footer-custom text-muted position-fixed bottom-0 w-100 py-2">
+        <div class="container text-center font-weight-bold">
+            <i class="bi bi-bookmark-heart me-1"></i> 2026 - Book Management System
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
