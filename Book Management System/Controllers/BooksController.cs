@@ -112,5 +112,26 @@ namespace BookManagementSystem.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+
+        // NEW CHANGE: Export entire book list catalog data as a downloadable CSV file
+        public IActionResult ExportToCSV()
+        {
+            var csvBuilder = new System.Text.StringBuilder();
+
+            // Write CSV Column Headers
+            csvBuilder.AppendLine("ID,Title,Author,ISBN,Published Year,Genre");
+
+            // Loop through current list items and format row columns
+            foreach (var book in _books)
+            {
+                csvBuilder.AppendLine($"{book.Id},\"{book.Title.Replace("\"", "\"\"")}\",\"{book.Author.Replace("\"", "\"\"")}\",'{book.ISBN},{book.PublishedYear},\"{book.Genre.Replace("\"", "\"\"")}\"");
+            }
+
+            // Convert string buffer data into a raw byte array stream for download execution
+            var fileBytes = System.Text.Encoding.UTF8.GetBytes(csvBuilder.ToString());
+
+            return File(fileBytes, "text/csv", "Library_Collection_Export.csv");
+        }
+
     }
 }
