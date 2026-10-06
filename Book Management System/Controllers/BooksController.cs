@@ -1,8 +1,8 @@
-﻿using Book_Management_System.Models;
+﻿
 using BookManagementSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Book_Management_System.Controllers
+namespace BookManagementSystem.Controllers
 {
     public class BooksController : Controller
     {
@@ -13,9 +13,18 @@ namespace Book_Management_System.Controllers
         };
 
         // GET: Books
-        public IActionResult Index()
+        // Updated to support searching/filtering down the list
+        public IActionResult Index(string searchString)
         {
-            return View(_books);
+            var filteredBooks = _books.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                filteredBooks = filteredBooks.Where(s => s.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+                                                      || s.Author.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return View(filteredBooks.ToList());
         }
 
         // GET: Books/Create
@@ -29,6 +38,17 @@ namespace Book_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Book book)
         {
+            // UPDATE 2: Custom validation handling to block invalid dates/empty titles
+            if (book.PublishedYear > DateTime.Now.Year)
+            {
+                ModelState.AddModelError("PublishedYear", "The publishing year cannot be in the future.");
+            }
+
+            if (string.IsNullOrWhiteSpace(book.Title))
+            {
+                ModelState.AddModelError("Title", "Book title field cannot contain empty whitespaces.");
+            }
+
             if (ModelState.IsValid)
             {
                 book.Id = _books.Any() ? _books.Max(b => b.Id) + 1 : 1;
@@ -51,6 +71,11 @@ namespace Book_Management_System.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Book updatedBook)
         {
+            if (updatedBook.PublishedYear > DateTime.Now.Year)
+            {
+                ModelState.AddModelError("PublishedYear", "The publishing year cannot be in the future.");
+            }
+
             if (ModelState.IsValid)
             {
                 var existingBook = _books.FirstOrDefault(b => b.Id == id);
